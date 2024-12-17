@@ -44,7 +44,8 @@ class Customer:
               f" was sold for {Fore.CYAN + self.price} PHP." + Fore.RESET)
 
     def display_receipt(self):
-        print(Fore.YELLOW + "Car Sale Receipt\n" + Fore.RESET)
+        print(Fore.YELLOW + "--------------- Car Sale Receipt "
+              "---------------\n" + Fore.RESET)
         if (not self.name or not self.brand or not self.model or not self.date
                 or not self.price):
             print("Complete the customer record first.")
@@ -55,6 +56,8 @@ class Customer:
               f"{self.model + Fore.RESET}")
         print(f"Date of Purchase\t|\t{Fore.CYAN + self.date + Fore.RESET}")
         print(f"Unit Price\t\t|\t{Fore.CYAN + self.price} PHP" + Fore.RESET)
+        print(Fore.YELLOW + "\n-------------------------------"
+              "-----------------" + Fore.RESET)
 
     def display_customer_record(self):
         os.system('cls')
