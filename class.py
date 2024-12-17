@@ -1,6 +1,8 @@
+from colorama import Fore
 import os
-os.system('cls')
 
+UNSET_OPTION = '-1'
+EXIT_OPTION = '0'
 class Customer:
     def __init__(self, name, brand, model, date, price):
         self.name = name
@@ -9,76 +11,101 @@ class Customer:
         self.date = date
         self.price = price
 
-    def display_customer(self):
-        print(f"The name of the customer is {self.name}.")
+    def display_name(self):
+        if not self.name:
+            print("\nNo input.")
+            return
+        
+        print(f"\nThe name of the customer is "
+              f"{Fore.CYAN + self.name + Fore.RESET}.")
 
     def display_car(self):
-        print(f"The brand of car he bought is {self.brand} {self.model}.")
+        if not self.brand or not self.model:
+            print("\nIncomplete data.")
+            return
+        
+        print(f"\nThe brand of car he bought is {Fore.CYAN + self.brand} "
+              f"{self.model + Fore.RESET}.")
 
     def display_date(self):
-        print(f"The car was purchased on {self.date}")
+        if not self.date:
+            print("\nNo input.")
+            return
+        
+        print(f"\nThe car was purchased on "
+              f"{Fore.CYAN + self.date + Fore.RESET}.")
 
     def display_price(self):
-        print(f"The {self.brand} {self.model} was sold for {self.price} pesos.")
+        if not self.brand or not self.model or not self.price:
+            print("\nIncomplete data.")
+            return
+        
+        print(f"\nThe {Fore.CYAN + self.brand} {self.model + Fore.RESET}"
+              f" was sold for {Fore.CYAN + self.price} PHP." + Fore.RESET)
 
     def display_receipt(self):
-        print("Car Sale Receipt\n")
-        print(f"Customer Name\t|\t{self.name}")
-        print(f"Car Purchased\t|\t{self.brand} {self.model}")
-        print(f"Date of Purchase\t|\t{self.date}")
-        print(f"Unit Price\t|\t{self.price}")
+        print(Fore.YELLOW + "Car Sale Receipt\n" + Fore.RESET)
+        if (not self.name or not self.brand or not self.model or not self.date
+                or not self.price):
+            print("Complete the customer record first.")
+            return
+        
+        print(f"Customer Name\t\t|\t{Fore.CYAN + self.name + Fore.RESET}")
+        print(f"Car Purchased\t\t|\t{Fore.CYAN + self.brand} "
+              f"{self.model + Fore.RESET}")
+        print(f"Date of Purchase\t|\t{Fore.CYAN + self.date + Fore.RESET}")
+        print(f"Unit Price\t\t|\t{Fore.CYAN + self.price} PHP" + Fore.RESET)
 
-def information():
-    name = input("Enter your name: ")
-    brand = input("Enter the brand: ")
-    model = input("Enter the model: ")
-    date = input("Enter the date of purchase: ")
-    price = input("Enter the unit price: ")
+    def display_customer_record(self):
+        os.system('cls')
+        print(Fore.YELLOW + "Customer Record\n" + Fore.RESET)
+        self.name = input("Enter the customer name: ")
+        self.brand = input("Enter the car brand: ")
+        self.model = input("Enter the car model: ")
+        self.date = input("Enter the date of purchase: ")
+        self.price = input("Enter the unit price: ")
 
-    return Customer(name, brand, model, date, price)
+    def display_choice(self):
+        os.system('cls')
+        print(Fore.YELLOW + "Purchase Information\n" + Fore.RESET)
+        print("1 - Customer name")
+        print("2 - Car's brand and model")
+        print("3 - Date of purchase")
+        print("4 - Unit price")
+        print("5 - Purchace receipt")
+        print("\n             0 - Exit\n")
 
-def display_menu():
-    os.system('cls')
-    print("Purchase Information\n")
-    print("1 - Customer name")
-    print("2 - Car's brand and model")
-    print("3 - Date of purchase")
-    print("4 - Unit price")
-    print("5 - Purchace receipt")
-    print("\n             0 - Exit")
+        return input("Enter your choice: ")
 
-    return input("Enter your choice: ")
+    def display_purchase_info(self, choice):
+        match choice:
+            case '1':
+                self.display_name()
+                input("\nPress enter to continue.")
+            case '2':
+                self.display_car()
+                input("\nPress enter to continue.")
+            case '3':
+                self.display_date()
+                input("\nPress enter to continue.")
+            case '4':
+                self.display_price()
+                input("\nPress enter to continue.")
+            case '5':
+                os.system('cls')
+                self.display_receipt()
+                input("\nPress enter to continue.")
+            case '0':
+                pass # exit
+            case _:
+                input("\nInvalid choice. ")
 
-def purchase_info(choice, customer):
-    match choice:
-        case '1':
-            customer.display_customer()
-            input("\nPress enter to continue.")
-        case '2':
-            customer.display_car()
-            input("\nPress enter to continue.")
-        case '3':
-            customer.display_date()
-            input("\nPress enter to continue.")
-        case '4':
-            customer.display_price()
-            input("\nPress enter to continue.")
-        case '5':
-            customer.display_receipt()
-            input("\nPress enter to continue.")
-        case '0':
-            pass # exit
-        case _:
-            input("Invalid choice. ")
+    def menu():
+        customer = Customer("", "", "", "", "")
+        customer.display_customer_record()
+        choice = UNSET_OPTION
+        while choice != EXIT_OPTION:
+            choice = customer.display_choice()
+            customer.display_purchase_info(choice)
 
-unset_option = -1
-exit_option = 0
-def kirby():
-    customer = information()
-    choice = unset_option
-    while choice != exit_option:
-        choice = display_menu()
-        purchase_info(choice, customer)
-        os.system("cls")
-
-kirby()
+Customer.menu()
