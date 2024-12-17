@@ -72,7 +72,7 @@ class Customer:
         print("2 - Car's brand and model")
         print("3 - Date of purchase")
         print("4 - Unit price")
-        print("5 - Purchace receipt")
+        print("5 - Purchase receipt")
         print("\n             0 - Exit\n")
 
         return input("Enter your choice: ")
